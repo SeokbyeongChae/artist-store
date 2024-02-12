@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: artist-store-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: artist-store
+  template:
+    metadata:
+      labels:
+        app: artist-store
+    spec:
+      containers:
+        - name: artist-store
+          image: sbchaes/artist-store
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: artist-store-srv
+spec:
+  selector:
+    app: artist-store
+  ports:
+    - name: artist-store
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
