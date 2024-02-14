@@ -19,9 +19,5 @@ INSERT INTO accounts (
 
 /* name: UpdateAccount :exec */
 UPDATE accounts
-SET balance = ?
-WHERE id = ?;
-
-/* name: DeleteAccount :exec */
-DELETE FROM accounts 
+SET last_login_at = ?
 WHERE id = ?;

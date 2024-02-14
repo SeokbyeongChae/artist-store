@@ -16,5 +16,5 @@ build:
         manual:
           - src: 'api/**/*.go'
             dest: .
-          - src: 'db/**/*.go'
+          - src: 'db/sqlc/*.go'
             dest: .
