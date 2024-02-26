@@ -12,11 +12,11 @@ func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 
-func RandomString(n int) string {
+func RandomString(length int) string {
 	var stringBuilder strings.Builder
 	k := len(characterRunes)
 
-	for i := 0; i < n; i++ {
+	for i := 0; i < length; i++ {
 		c := characterRunes[rand.Intn(k)]
 		stringBuilder.WriteByte(c)
 	}

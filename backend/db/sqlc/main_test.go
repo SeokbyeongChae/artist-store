@@ -7,18 +7,19 @@ import (
 	"testing"
 
 	_ "github.com/go-sql-driver/mysql"
-)
-
-const (
-	dbDriver = "mysql"
-	dbSource = "root:secret@tcp(127.0.0.1:3306)/artist_store"
+	"github.com/seokbyeongchae/artist-store/util"
 )
 
 var testQueries *Queries
 var testDB *sql.DB
 
 func TestMain(m *testing.M) {
-	conn, err := sql.Open(dbDriver, dbSource)
+	config, err := util.LoadConfig("../../")
+	if err != nil {
+		log.Fatal("cannot load config:", err)
+	}
+
+	conn, err := sql.Open(config.DBDriver, config.DBSource)
 	if err != nil {
 		log.Fatal("cannot connect to db:", err)
 	}

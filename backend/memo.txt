@@ -1,3 +1,5 @@
 * 테스트위해 https://github.com/stretchr/testify 설치
 * pq 설치(안쓰는 코드 자동 삭제?)
 * github.com/go-sql-driver/mysql 설치
+
+* mockgen 설치 및 mockdb를 위해 sqlc에 emit_interface: true 옵션으로 변경

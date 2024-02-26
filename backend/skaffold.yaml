@@ -14,7 +14,7 @@ build:
         dockerfile: Dockerfile
       sync:
         manual:
-          - src: 'api/**/*.go'
+          - src: 'api/*.go'
             dest: .
           - src: 'db/sqlc/*.go'
             dest: .

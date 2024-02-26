@@ -2,6 +2,10 @@
 SELECT * FROM accounts
 WHERE id = ? LIMIT 1;
 
+/* name: GetAccountByEmail :one */
+SELECT * FROM accounts
+WHERE email = ? LIMIT 1;
+
 /* name: ListAccounts :many */
 SELECT * FROM accounts
 ORDER BY id
