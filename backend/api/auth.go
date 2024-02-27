@@ -110,3 +110,10 @@ func (server *Server) signin(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, res)
 }
+
+func authPing(ctx *gin.Context) {
+	authPayload := ctx.MustGet(authorizationPayloadKey).(*security.Payload)
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": authPayload.AccountId,
+	})
+}
