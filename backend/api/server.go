@@ -47,6 +47,7 @@ func (server *Server) setupRouter() {
 
 	router.POST("/auth/signup", server.signup)
 	router.POST("/auth/signin", server.signin)
+	router.POST("/auth/renew_access_token", server.renewAccessToken)
 
 	authRoutes := router.Group("/").Use(authModdleware(server.tokenMaker))
 	authRoutes.GET("auth/ping", authPing)

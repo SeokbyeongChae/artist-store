@@ -20,12 +20,12 @@ type Account struct {
 }
 
 type Session struct {
-	ID           int64         `json:"id"`
-	AccountID    sql.NullInt64 `json:"account_id"`
-	RefreshToken string        `json:"refresh_token"`
-	UserAgent    string        `json:"user_agent"`
-	ClientIp     string        `json:"client_ip"`
-	IsBlocked    bool          `json:"is_blocked"`
-	ExpireAt     time.Time     `json:"expire_at"`
-	CreatedAt    sql.NullTime  `json:"created_at"`
+	Uuid         string       `json:"uuid"`
+	AccountID    int64        `json:"account_id"`
+	RefreshToken string       `json:"refresh_token"`
+	UserAgent    string       `json:"user_agent"`
+	ClientIp     string       `json:"client_ip"`
+	IsBlocked    bool         `json:"is_blocked"`
+	ExpireAt     time.Time    `json:"expire_at"`
+	CreatedAt    sql.NullTime `json:"created_at"`
 }

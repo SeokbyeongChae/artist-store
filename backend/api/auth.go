@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	my "github.com/go-mysql/errors"
@@ -12,7 +13,8 @@ import (
 )
 
 var (
-	errNotFound = errors.New("cannot find account")
+	errNotFound     = errors.New("cannot find account")
+	errUnauthorized = errors.New("session is unauthorized")
 )
 
 type signupRequest struct {
@@ -72,7 +74,10 @@ type signinRequest struct {
 }
 
 type signinResponse struct {
-	AccessToken string `json:"access_token"`
+	AccessToken           string    `json:"access_token"`
+	AccessTokenExpiresAt  time.Time `json:"access_token_expires_at"`
+	RefreshToken          string    `json:"refresh_token"`
+	RefreshTokenExpiresAt time.Time `json:"refresh_token_expires_at"`
 }
 
 func (server *Server) signin(ctx *gin.Context) {
@@ -98,14 +103,110 @@ func (server *Server) signin(ctx *gin.Context) {
 		return
 	}
 
-	accessToken, err := server.tokenMaker.CreateToken(account.ID, server.config.AccessTokenDuration)
+	accessToken, accountPayload, err := server.tokenMaker.CreateToken(account.ID, server.config.AccessTokenDuration)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
 
+	refreshToken, refreshPayload, err := server.tokenMaker.CreateToken(account.ID, server.config.RefreshTokenDuration)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	arg := db.CreateSessionParams{
+		AccountID:    account.ID,
+		RefreshToken: refreshToken,
+		UserAgent:    ctx.Request.UserAgent(),
+		ClientIp:     ctx.ClientIP(),
+		IsBlocked:    false,
+		ExpireAt:     refreshPayload.ExpiresAt.Time,
+	}
+
+	server.store.CreateSession(ctx, arg)
+
 	res := signinResponse{
-		AccessToken: accessToken,
+		AccessToken:           accessToken,
+		AccessTokenExpiresAt:  accountPayload.ExpiresAt.Time,
+		RefreshToken:          refreshToken,
+		RefreshTokenExpiresAt: refreshPayload.ExpiresAt.Time,
+	}
+
+	ctx.JSON(http.StatusOK, res)
+}
+
+type renewAccessTokenRequest struct {
+	RefreshToken string `json:"refresh_token" binding:"required"`
+}
+
+type renewAccessTokenResponse struct {
+	AccessToken          string    `json:"access_token"`
+	AccessTokenExpiresAt time.Time `json:"access_token_expires_at"`
+}
+
+func (server *Server) renewAccessToken(ctx *gin.Context) {
+	var req renewAccessTokenRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	refreshPayload, err := server.tokenMaker.VerifyToken(req.RefreshToken)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		return
+	}
+
+	session, err := server.store.GetSession(ctx, refreshPayload.ID)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			ctx.JSON(http.StatusNotFound, errorResponse(err))
+			return
+		}
+
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	if time.Now().After(session.ExpireAt) {
+		ctx.JSON(http.StatusUnauthorized, errorResponse(errUnauthorized))
+		return
+	}
+
+	if session.IsBlocked {
+		// TODO
+		ctx.JSON(http.StatusUnauthorized, errorResponse(errUnauthorized))
+		return
+	}
+
+	if session.RefreshToken != req.RefreshToken {
+		// TODO
+		ctx.JSON(http.StatusUnauthorized, errorResponse(errUnauthorized))
+		return
+	}
+
+	if session.UserAgent != ctx.Request.UserAgent() {
+		// TODO
+		ctx.JSON(http.StatusUnauthorized, errorResponse(errUnauthorized))
+		return
+	}
+
+	if session.ClientIp != ctx.ClientIP() {
+		// TODO
+		ctx.JSON(http.StatusUnauthorized, errorResponse(errUnauthorized))
+		return
+	}
+
+	accessToken, accountPayload, err := server.tokenMaker.CreateToken(session.AccountID, server.config.AccessTokenDuration)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	res := renewAccessTokenResponse{
+		AccessToken:          accessToken,
+		AccessTokenExpiresAt: accountPayload.ExpiresAt.Time,
 	}
 
 	ctx.JSON(http.StatusOK, res)

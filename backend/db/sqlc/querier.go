@@ -11,8 +11,10 @@ import (
 
 type Querier interface {
 	CreateAccount(ctx context.Context, arg CreateAccountParams) (sql.Result, error)
+	CreateSession(ctx context.Context, arg CreateSessionParams) (sql.Result, error)
 	GetAccount(ctx context.Context, id int64) (Account, error)
 	GetAccountByEmail(ctx context.Context, email string) (Account, error)
+	GetSession(ctx context.Context, uuid string) (Session, error)
 	ListAccounts(ctx context.Context, arg ListAccountsParams) ([]Account, error)
 	UpdateAccount(ctx context.Context, arg UpdateAccountParams) error
 }

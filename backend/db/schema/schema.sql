@@ -24,23 +24,23 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   KEY `email_password` (`email`,`password`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Data exporting was unselected.
 
--- Dumping structure for table artist_store.Session
-CREATE TABLE IF NOT EXISTS `Session` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `account_id` bigint DEFAULT NULL,
+-- Dumping structure for table artist_store.sessions
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `account_id` bigint NOT NULL,
   `refresh_token` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `user_agent` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `client_ip` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `is_blocked` tinyint(1) NOT NULL,
   `expire_at` timestamp NOT NULL,
   `created_at` timestamp NULL DEFAULT (now()),
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`uuid`) USING BTREE,
   KEY `account_id` (`account_id`),
-  CONSTRAINT `Session_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`)
+  CONSTRAINT `sessions_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Data exporting was unselected.

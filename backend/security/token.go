@@ -8,7 +8,7 @@ import (
 )
 
 type Maker interface {
-	CreateToken(accountId int64, duration time.Duration) (string, error)
+	CreateToken(accountId int64, duration time.Duration) (string, *Payload, error)
 	VerifyToken(token string) (*Payload, error)
 }
 
