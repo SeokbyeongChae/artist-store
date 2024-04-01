@@ -4,6 +4,8 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/seokbyeongchae/artist-store/api/v1/controllers/auth"
+	"github.com/seokbyeongchae/artist-store/api/v1/routers"
 	db "github.com/seokbyeongchae/artist-store/db/sqlc"
 	"github.com/seokbyeongchae/artist-store/security"
 	"github.com/seokbyeongchae/artist-store/util"
@@ -11,12 +13,12 @@ import (
 
 type Server struct {
 	config     util.Config
-	store      db.Store
 	tokenMaker security.Maker
+	store      *db.Store
 	router     *gin.Engine
 }
 
-func NewServer(config util.Config, store db.Store) (*Server, error) {
+func NewServer(config util.Config, store *db.Store) (*Server, error) {
 	tokenMaker, err := security.NewJWTMaker(config.JwtTokenSecretKey)
 	if err != nil {
 		return nil, fmt.Errorf("cannot create token maker: %w", err)
@@ -42,6 +44,12 @@ func (server *Server) Start(address string) error {
 
 func (server *Server) setupRouter() {
 	router := gin.Default()
+
+	apiv1 := router.Group("/api/v1")
+
+	authController := auth.New(server.store, server.config, server.tokenMaker)
+	authRouter := routers.New(authController)
+	authRouter.RegisterRouter(apiv1)
 
 	router.GET("/ping", ping)
 
