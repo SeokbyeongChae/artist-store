@@ -48,21 +48,8 @@ func (server *Server) setupRouter() {
 	apiv1 := router.Group("/api/v1")
 
 	authController := auth.New(server.store, server.config, server.tokenMaker)
-	authRouter := routers.New(authController)
+	authRouter := routers.New(authController, server.tokenMaker)
 	authRouter.RegisterRouter(apiv1)
 
-	router.GET("/ping", ping)
-
-	router.POST("/auth/signup", server.signup)
-	router.POST("/auth/signin", server.signin)
-	router.POST("/auth/renew_access_token", server.renewAccessToken)
-
-	authRoutes := router.Group("/").Use(authModdleware(server.tokenMaker))
-	authRoutes.GET("auth/ping", authPing)
-
 	server.router = router
-}
-
-func errorResponse(err error) gin.H {
-	return gin.H{"error": err.Error()}
 }
