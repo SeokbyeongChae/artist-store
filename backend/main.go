@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"log"
 
-	"github.com/seokbyeongchae/artist-store/api"
-	db "github.com/seokbyeongchae/artist-store/db/sqlc"
-	"github.com/seokbyeongchae/artist-store/util"
+	"github.com/seokbyeongchae/go-vue-auth-example/api"
+	db "github.com/seokbyeongchae/go-vue-auth-example/db/sqlc"
+	"github.com/seokbyeongchae/go-vue-auth-example/util"
 
 	_ "github.com/go-sql-driver/mysql"
 )

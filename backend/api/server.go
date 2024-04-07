@@ -4,11 +4,11 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/seokbyeongchae/artist-store/api/v1/controllers/auth"
-	"github.com/seokbyeongchae/artist-store/api/v1/routers"
-	db "github.com/seokbyeongchae/artist-store/db/sqlc"
-	"github.com/seokbyeongchae/artist-store/security"
-	"github.com/seokbyeongchae/artist-store/util"
+	"github.com/seokbyeongchae/go-vue-auth-example/api/v1/controllers/auth"
+	"github.com/seokbyeongchae/go-vue-auth-example/api/v1/routers"
+	db "github.com/seokbyeongchae/go-vue-auth-example/db/sqlc"
+	"github.com/seokbyeongchae/go-vue-auth-example/security"
+	"github.com/seokbyeongchae/go-vue-auth-example/util"
 )
 
 type Server struct {

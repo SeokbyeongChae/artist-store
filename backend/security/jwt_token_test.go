@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seokbyeongchae/artist-store/util"
+	"github.com/seokbyeongchae/go-vue-auth-example/util"
 	"github.com/stretchr/testify/require"
 )
 

@@ -8,7 +8,7 @@ build:
   local:
     push: false
   artifacts:
-    - image: sbchaes/artist-store
+    - image: sbchaes/go-vue-auth-example
       context: .
       docker: 
         dockerfile: Dockerfile

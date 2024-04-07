@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/seokbyeongchae/artist-store/util"
+	"github.com/seokbyeongchae/go-vue-auth-example/util"
 )
 
 var testQueries *Queries

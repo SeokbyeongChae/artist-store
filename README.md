@@ -1,4 +1,4 @@
-# artist-store 
+# go-vue-auth-example
 
 ## setting up backend for dev mode
 

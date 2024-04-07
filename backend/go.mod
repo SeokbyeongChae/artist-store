@@ -1,4 +1,4 @@
-module github.com/seokbyeongchae/artist-store
+module github.com/seokbyeongchae/go-vue-auth-example
 
 go 1.21.6
 

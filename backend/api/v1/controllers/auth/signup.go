@@ -5,9 +5,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	mysql "github.com/go-mysql/errors"
-	"github.com/seokbyeongchae/artist-store/api/v1/response"
-	db "github.com/seokbyeongchae/artist-store/db/sqlc"
-	"github.com/seokbyeongchae/artist-store/security"
+	"github.com/seokbyeongchae/go-vue-auth-example/api/v1/response"
+	db "github.com/seokbyeongchae/go-vue-auth-example/db/sqlc"
+	"github.com/seokbyeongchae/go-vue-auth-example/security"
 )
 
 type signupRequest struct {

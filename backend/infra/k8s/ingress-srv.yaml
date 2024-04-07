@@ -7,13 +7,13 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
-    - host: artist-store.dev
+    - host: go-vue-auth-example.dev
       http:
         paths:
           - path: /?(.*)
             pathType: Prefix
             backend:
               service:
-                name: artist-store-srv
+                name: go-vue-auth-example-srv
                 port:
                   number: 8080

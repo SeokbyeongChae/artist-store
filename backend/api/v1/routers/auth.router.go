@@ -2,9 +2,9 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/seokbyeongchae/artist-store/api/v1/controllers/auth"
-	"github.com/seokbyeongchae/artist-store/api/v1/middlewares"
-	"github.com/seokbyeongchae/artist-store/security"
+	"github.com/seokbyeongchae/go-vue-auth-example/api/v1/controllers/auth"
+	"github.com/seokbyeongchae/go-vue-auth-example/api/v1/middlewares"
+	"github.com/seokbyeongchae/go-vue-auth-example/security"
 )
 
 type AuthRouter struct {

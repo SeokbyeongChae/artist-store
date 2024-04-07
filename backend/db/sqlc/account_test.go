@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/seokbyeongchae/artist-store/security"
-	"github.com/seokbyeongchae/artist-store/util"
+	"github.com/seokbyeongchae/go-vue-auth-example/security"
+	"github.com/seokbyeongchae/go-vue-auth-example/util"
 	"github.com/stretchr/testify/require"
 )
 

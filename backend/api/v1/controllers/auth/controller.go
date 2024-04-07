@@ -1,9 +1,9 @@
 package auth
 
 import (
-	db "github.com/seokbyeongchae/artist-store/db/sqlc"
-	"github.com/seokbyeongchae/artist-store/security"
-	"github.com/seokbyeongchae/artist-store/util"
+	db "github.com/seokbyeongchae/go-vue-auth-example/db/sqlc"
+	"github.com/seokbyeongchae/go-vue-auth-example/security"
+	"github.com/seokbyeongchae/go-vue-auth-example/util"
 )
 
 type AuthController struct {

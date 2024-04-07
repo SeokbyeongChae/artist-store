@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/seokbyeongchae/artist-store/api/v1/constants"
-	"github.com/seokbyeongchae/artist-store/api/v1/response"
-	"github.com/seokbyeongchae/artist-store/security"
+	"github.com/seokbyeongchae/go-vue-auth-example/api/v1/constants"
+	"github.com/seokbyeongchae/go-vue-auth-example/api/v1/response"
+	"github.com/seokbyeongchae/go-vue-auth-example/security"
 )
 
 type PingResponse struct {
